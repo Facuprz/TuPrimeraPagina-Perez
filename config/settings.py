@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'ckeditor',
     'proyecto',
     'accounts.apps.AccountsConfig',
+    'messenger',
 ]
 
 MIDDLEWARE = [

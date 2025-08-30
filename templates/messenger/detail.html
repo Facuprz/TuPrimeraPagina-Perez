@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Mensaje{% endblock %}
+{% block content %}
+  <h1>Mensaje</h1>
+  <p><strong>De:</strong> {{ message.sender.username }}</p>
+  <p><strong>Para:</strong> {{ message.recipient.username }}</p>
+  <p><strong>Fecha:</strong> {{ message.created|date:"Y-m-d H:i" }}</p>
+  <hr>
+  <p>{{ message.body|linebreaks }}</p>
+  <hr>
+  <p>
+    <a href="{% url 'compose' %}?to={{ message.sender.id }}">Responder</a> ·
+    <a href="{% url 'inbox' %}">Volver al Inbox</a>
+  </p>
+{% endblock %}
