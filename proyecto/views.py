@@ -4,6 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from .models import Page
 from .forms import PageForm, PageSearchForm
+from django.db.models import Q
 
 # Vistas simples (home / about)
 def home(request):
@@ -54,3 +55,16 @@ class PageDeleteView(LoginRequiredMixin, DeleteView):
     model = Page
     template_name = "page_confirm_delete.html"
     success_url = reverse_lazy('pages_list')
+
+def search(request):
+    form = PageSearchForm(request.GET or None)
+    results = []
+    if form.is_valid():
+        q = form.cleaned_data.get('q')
+        if q:
+            results = Page.objects.filter(
+                Q(titulo__icontains=q) |
+                Q(subtitulo__icontains=q) |
+                Q(contenido__icontains=q)
+            )
+    return render(request, 'search.html', {'form': form, 'results': results})
