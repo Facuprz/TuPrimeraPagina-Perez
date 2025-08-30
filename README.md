@@ -42,3 +42,5 @@ python manage.py runserver
 - Inbox: `/messages/`
 - Nuevo mensaje: `/messages/compose/`
 - Detalle: `/messages/<id>/`
+
+Video: https://www.awesomescreenshot.com/video/43694975?key=c8ad474618f387ebbfaed7ed0619dfb1
