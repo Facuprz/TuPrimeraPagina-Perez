@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Editar perfil{% endblock %}
+{% block content %}
+  <h1>Editar perfil</h1>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <fieldset>
+      <legend>Datos de usuario</legend>
+      {{ uform.as_p }}
+    </fieldset>
+    <fieldset>
+      <legend>Datos de perfil</legend>
+      {{ pform.as_p }}
+    </fieldset>
+    <button type="submit">Guardar</button>
+    <a href="{% url 'profile' %}">Cancelar</a>
+  </form>
+{% endblock %}

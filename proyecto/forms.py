@@ -8,7 +8,7 @@ class PageForm(forms.ModelForm):
         model = Page
         fields = ['titulo', 'subtitulo', 'contenido', 'imagen']
         widgets = {
-            'contenido': CKEditorWidget(),  # editor enriquecido
+            'contenido': CKEditorWidget(),
         }
 
 class PageSearchForm(forms.Form):

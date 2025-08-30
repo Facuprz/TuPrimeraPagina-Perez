@@ -2,7 +2,17 @@
 {% block title %}Perfil{% endblock %}
 {% block content %}
   <h1>Perfil</h1>
-  <p>Usuario: {{ request.user.username }}</p>
-  <p>Email: {{ request.user.email }}</p>
-  <p><a href="{% url 'logout' %}">Cerrar sesión</a></p>
+  {% if request.user.profile.avatar %}
+    <p><img src="{{ request.user.profile.avatar.url }}" alt="avatar" style="max-width:150px;border-radius:8px"></p>
+  {% endif %}
+  <p><strong>Usuario:</strong> {{ request.user.username }}</p>
+  <p><strong>Nombre:</strong> {{ request.user.first_name }} {{ request.user.last_name }}</p>
+  <p><strong>Email:</strong> {{ request.user.email }}</p>
+  <p><strong>Bio:</strong> {{ request.user.profile.bio|default:"—" }}</p>
+  <p><strong>Website:</strong> {% if request.user.profile.website %}<a href="{{ request.user.profile.website }}" target="_blank">{{ request.user.profile.website }}</a>{% else %}—{% endif %}</p>
+  <p><strong>Cumpleaños:</strong> {{ request.user.profile.birthday|date:"Y-m-d"|default:"—" }}</p>
+  <p>
+    <a href="{% url 'profile_edit' %}">Editar perfil</a> ·
+    <a href="{% url 'password_change' %}">Cambiar contraseña</a>
+  </p>
 {% endblock %}
