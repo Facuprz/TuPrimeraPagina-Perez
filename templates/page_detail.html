@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}{{ page.titulo }}{% endblock %}
+{% block content %}
+  <h1>{{ page.titulo }}</h1>
+  {% if page.subtitulo %}<h3>{{ page.subtitulo }}</h3>{% endif %}
+  {% if page.imagen %}<p><img src="{{ page.imagen.url }}" alt="{{ page.titulo }}" style="max-width:400px"></p>{% endif %}
+  <div>{{ page.contenido|safe }}</div>
+  <p><a href="{% url 'pages_list' %}">Volver</a></p>
+{% endblock %}

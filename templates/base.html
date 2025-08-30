@@ -1,0 +1,91 @@
+{% load static %}
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Mi Blog{% endblock %}</title>
+
+  {# Opcional: tu CSS en static/css/styles.css #}
+  {# <link rel="stylesheet" href="{% static 'css/styles.css' %}"> #}
+
+  {% block extra_head %}{% endblock %}
+  <style>
+    /* Estilos mínimos para una maqueta limpia */
+    :root { --maxw: 960px; --gap: 16px; --fg:#222; --muted:#666; --bg:#fafafa; --brand:#0a7; }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,'Helvetica Neue',Arial,sans-serif;color:var(--fg);background:var(--bg)}
+    header{background:#fff;border-bottom:1px solid #eee}
+    .container{max-width:var(--maxw);margin:0 auto;padding:0 var(--gap)}
+    nav{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:12px 0}
+    nav a{color:var(--fg);text-decoration:none;padding:6px 10px;border-radius:8px}
+    nav a:hover{background:#f0f0f0}
+    .grow{flex:1}
+    .hello{color:var(--muted);font-size:.95rem}
+    .btn-link{background:none;border:none;padding:6px 10px;cursor:pointer;font:inherit;color:var(--fg);border-radius:8px}
+    .btn-link:hover{background:#f0f0f0}
+    .messages{list-style:none;padding:0;margin:16px 0}
+    .messages li{padding:10px 12px;border-radius:10px;margin-bottom:8px;background:#fff;border:1px solid #eee}
+    .messages li.success{border-color:#b7efc5;background:#f2fff5}
+    .messages li.error{border-color:#ffc9c9;background:#fff5f5}
+    .messages li.warning{border-color:#ffe8a1;background:#fffaf0}
+    .messages li.info{border-color:#bde0fe;background:#f0f8ff}
+    main{padding:20px 0}
+    footer{border-top:1px solid #eee;color:var(--muted);font-size:.9rem}
+    footer .container{padding:16px 0}
+    .brand{font-weight:700;color:var(--brand)}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <nav>
+        <a class="brand" href="{% url 'home' %}">Mi Blog</a>
+
+        <a href="{% url 'home' %}">Home</a>
+        <a href="{% url 'about' %}">Acerca de mí</a>
+        <a href="{% url 'pages_list' %}">Páginas</a>
+
+        <span class="grow"></span>
+
+        {% if user.is_authenticated %}
+          <span class="hello">Hola, {{ request.user.username }} ·</span>
+          <a href="{% url 'profile' %}">Perfil</a>
+          <form action="{% url 'logout' %}" method="post" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit" class="btn-link">Logout</button>
+          </form>
+        {% else %}
+          <a href="{% url 'login' %}">Login</a>
+          {# Cuando implementes registro:
+          <a href="{% url 'signup' %}">Signup</a>
+          #}
+        {% endif %}
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    {% if messages %}
+      <ul class="messages">
+        {% for message in messages %}
+          <li class="{{ message.tags|default:'' }}">{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer>
+    <div class="container">
+      © {% now "Y" %} · Hecho con Django
+    </div>
+  </footer>
+
+  {% block extra_js %}{% endblock %}
+</body>
+</html>
+
+
+

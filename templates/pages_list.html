@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Páginas{% endblock %}
+{% block content %}
+  <h1>Páginas</h1>
+
+  <form method="get" style="margin-bottom:1rem;">
+    {{ search_form.q }}
+    <button type="submit">Buscar</button>
+  </form>
+
+  {% if pages %}
+    <ul>
+      {% for p in pages %}
+        <li>
+          <h3>{{ p.titulo }}</h3>
+          {% if p.subtitulo %}<p>{{ p.subtitulo }}</p>{% endif %}
+          <a href="{% url 'page_detail' p.pk %}">Leer más</a>
+          {% if user.is_authenticated %}
+            | <a href="{% url 'page_update' p.pk %}">Editar</a>
+            | <a href="{% url 'page_delete' p.pk %}">Borrar</a>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p><em>No hay páginas aún</em>.</p>
+  {% endif %}
+
+  {% if user.is_authenticated %}
+    <p style="margin-top:1rem;"><a href="{% url 'page_create' %}">Crear nueva página</a></p>
+  {% endif %}
+{% endblock %}
